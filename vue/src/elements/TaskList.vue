@@ -5,9 +5,9 @@
 			placeholder="New todo"
 			@keydown.enter="addTodo"
 		/>
-		<ul v-if="todos.length">
+		<ul v-if="getTodos.length">
 			<Item
-				v-for="todo in todos"
+				v-for="todo in getTodos"
 				:key="todo.id"
 				:todo="todo"
 				@remove="removeTodo"
@@ -31,25 +31,26 @@ export default {
 	},
   data () {
     return {
-			newTodoText: '',
-      todos: []
+			newTodoText: ''
     }
+  },
+	computed: {
+      getTodos() {
+      		return this.$store.getters.getTodos;
+      }
   },
 	methods: {
 		addTodo () {
 			const trimmedText = this.newTodoText.trim()
 			if (trimmedText) {
-				this.todos.push({
-					id: nextTodoId++,
-					text: trimmedText
-				})
+				this.$store.commit('addTask', {
+					taskId: nextTodoId++,
+					taskText: trimmedText})
 				this.newTodoText = ''
 			}
 		},
 		removeTodo (idToRemove) {
-			this.todos = this.todos.filter(todo => {
-				return todo.id !== idToRemove
-			})
+			this.$store.commit('removeTodo', idToRemove)
 		}
 	}
 }

@@ -5,10 +5,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-      count: 0
+      todos: []
+    },
+    getters: {
+        getTodos: state => {
+            return state.todos;
+        },
     },
     mutations: {
-      increment: state => state.count++,
-      decrement: state => state.count--
+      addTask (state, task) {
+          state.todos.push({
+  					id: task.taskId,
+  					text: task.taskText
+  				});
+      },
+      removeTodo (state, idToRemove) {
+  			state.todos = state.todos.filter(todo => {
+  				return todo.id !== idToRemove
+  			})
+  		}
     }
 })

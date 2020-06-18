@@ -13,7 +13,7 @@
       Clear completed
     </button>
     <p>
-      {{getTaskListLength}} items left
+      {{getTaskListLength}} left
     </p>
   </div>
 </template>
@@ -22,7 +22,10 @@
 export default {
     computed:{
       getTaskListLength(){
-          return this.$store.state.todos.length;
+          if (this.$store.state.todos.length === 1){
+            return this.$store.state.todos.length.toString() + " item";
+          }
+          return this.$store.state.todos.length.toString() + " items";
       },
       isAnyDone(){
           return this.$store.getters.isAnyDone;

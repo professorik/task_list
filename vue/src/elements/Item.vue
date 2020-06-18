@@ -1,6 +1,10 @@
 <template>
   <li>
-    {{ todo.text }}
+    <button @click="$emit('changeStatus', todo.id)">
+      O
+    </button>
+    <template v-if="todo.isActive">{{ todo.text }}</template>
+    <del v-else>{{ todo.text }}</del>
     <button @click="$emit('remove', todo.id)">
       X
     </button>

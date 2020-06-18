@@ -5,14 +5,18 @@
 			placeholder="New todo"
 			@keydown.enter="addTodo"
 		/>
-		<ul v-if="getTodos.length">
-			<Item
-				v-for="todo in getTodos"
-				:key="todo.id"
-				:todo="todo"
-				@remove="removeTodo"
-			/>
-		</ul>
+		<template v-if="getTodos.length">
+				<ul>
+					<Item
+						v-for="todo in getTodosList()"
+						:key="todo.id"
+						:todo="todo"
+						@remove="removeTodo"
+						@changeStatus="changeTodoStatus"
+					/>
+				</ul>
+				<BottomMenu/>
+		</template>
 		<p v-else>
 			Nothing left in the list.
 		</p>
@@ -22,12 +26,11 @@
 <script>
 import InputField from './InputField.vue'
 import Item from './Item.vue'
-
-let nextTodoId = 1
+import BottomMenu from './BottomMenu.vue'
 
 export default {
 	components: {
-		InputField, Item
+		InputField, Item, BottomMenu
 	},
   data () {
     return {
@@ -40,17 +43,21 @@ export default {
       }
   },
 	methods: {
+		getTodosList (){
+				return this.$store.getters.getTodosWithStatus;
+		},
 		addTodo () {
 			const trimmedText = this.newTodoText.trim()
 			if (trimmedText) {
-				this.$store.commit('addTask', {
-					taskId: nextTodoId++,
-					taskText: trimmedText})
+				this.$store.commit('addTask', {taskText: trimmedText})
 				this.newTodoText = ''
 			}
 		},
 		removeTodo (idToRemove) {
 			this.$store.commit('removeTodo', idToRemove)
+		},
+		changeTodoStatus (idToChange) {
+			this.$store.commit('changeTodoStatus', idToChange)
 		}
 	}
 }

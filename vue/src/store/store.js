@@ -12,6 +12,13 @@ export default new Vuex.Store({
         getTodos: state => {
             return state.todos;
         },
+        getCountOfTodosLeft: state => {
+          let count = 0;
+          state.todos.forEach((i) => {
+            if (i.isActive) ++count;
+          });
+          return count;
+        },
         getTodosWithStatus: state => {
           if (state.displayStatus === 'active'){
       			return state.todos.filter(todo => {

@@ -22,10 +22,11 @@
 export default {
     computed:{
       getTaskListLength(){
-          if (this.$store.state.todos.length === 1){
-            return this.$store.state.todos.length.toString() + " item";
+          let todosLength = this.$store.getters.getCountOfTodosLeft;
+          if (todosLength === 1){
+            return todosLength.toString() + " item";
           }
-          return this.$store.state.todos.length.toString() + " items";
+          return todosLength.toString() + " items";
       },
       isAnyDone(){
           return this.$store.getters.isAnyDone;

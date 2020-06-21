@@ -1,14 +1,11 @@
 <template>
   <div>
-    <button @click="changeDisplayStatus('all')">
-      All
-    </button>
-    <button  @click="changeDisplayStatus('active')">
-      Active
-    </button>
-    <button  @click="changeDisplayStatus('completed')">
-      Completed
-    </button>
+    <button
+     v-for="status in ['All', 'Active', 'Completed']"
+     :key="status"
+     @click="changeDisplayStatus(status)">
+     {{ status }}
+   </button>
     <button v-if="isAnyDone" @click="clearCompleted">
       Clear completed
     </button>
@@ -24,9 +21,9 @@ export default {
       getTaskListLength(){
           let todosLength = this.$store.getters.getCountOfTodosLeft;
           if (todosLength === 1){
-            return todosLength.toString() + " item";
+            return todosLength + " item";
           }
-          return todosLength.toString() + " items";
+          return todosLength + " items";
       },
       isAnyDone(){
           return this.$store.getters.isAnyDone;

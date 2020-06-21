@@ -1,10 +1,9 @@
 <template>
 	<div>
 		<InputField
-			v-model="newTodoText"
+			:value.sync="newTodoText"
 			placeholder="New todo"
-			@keydown.enter="addTodo"
-		/>
+			:enterPress="addTodo"/>
 		<template v-if="getTodos.length">
 				<ul>
 					<Item

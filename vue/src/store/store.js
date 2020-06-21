@@ -20,22 +20,15 @@ export default new Vuex.Store({
           return count;
         },
         getTodosWithStatus: state => {
-          if (state.displayStatus === 'active'){
-      			return state.todos.filter(todo => {
-      				return todo.isActive
-      			});
-          }else if (state.displayStatus === 'completed') {
-            return state.todos.filter(todo => {
-      				return !todo.isActive
-      			});
+          if (['active', 'completed'].includes(state.displayStatus)) {
+              return state.todos.filter(todo => {
+               return todo.isActive === (state.displayStatus !== 'completed')
+             });
           }
-          return state.todos;
-    		},
+           return state.todos;
+        },
         isAnyDone: state => {
-          for (var i = 0; i < state.todos.length; i++) {
-            if (!state.todos[i].isActive) return true;
-          }
-          return false;
+           return state.todos.filter(t => !t.isActive).length
         }
     },
     mutations: {
@@ -61,7 +54,7 @@ export default new Vuex.Store({
         console.log(state.todos);
       },
       changeDisplayStatus (state, newDisplayStatus){
-        state.displayStatus = newDisplayStatus;
+        state.displayStatus = newDisplayStatus.toLowerCase();
       },
       clearCompleted (state){
         state.todos = state.todos.filter(todo => {

@@ -1,23 +1,27 @@
 <template>
-  <input type="text" class="input" v-on="listeners">
+  <input type="text" v-model='mval' class="input" @input="$emit('update:value', $event.target.value)" @keydown.enter="enterPress">
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      mval:''
+    }
+  },
+  watch: {
+    value(val) {
+        this.mval = val
+    }
+  },
   props: {
     value: {
       type: String,
       default: ""
-    }
-  },
-  computed: {
-    listeners() {
-      return {
-        // Pass all component listeners directly to input
-        ...this.$listeners,
-        // Override input listener to work with v-model
-        input: event => this.$emit("input", event.target.value)
-      };
+    },
+    enterPress: {
+      type: Function,
+      default: () => {}
     }
   }
 };

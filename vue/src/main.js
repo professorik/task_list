@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store/store.js'
+import router from './router/router.js'
 
 new Vue({
   el: '#app',
   store: store,
+  router: router,
   render: h => h(App),
   beforeCreate() {
 		this.$store.commit('initialiseStore');
